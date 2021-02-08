@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "deps": "dep-check",
-    "pkg": "pkg-check"
+    "pkg": "pkg-check",
+    "prepack": "yarn --cwd=../../ build"
   },
   "repository": {
     "type": "git",

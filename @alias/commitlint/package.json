@@ -10,7 +10,8 @@
   },
   "scripts": {
     "deps": "dep-check",
-    "pkg": "pkg-check --skip-main"
+    "pkg": "pkg-check --skip-main",
+    "prepack": "yarn --cwd=../../ build"
   },
   "engines": {
     "node": ">=v10"

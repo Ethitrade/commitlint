@@ -8,7 +8,8 @@
     "lib/"
   ],
   "scripts": {
-    "pkg": "pkg-check"
+    "pkg": "pkg-check",
+    "prepack": "yarn --cwd=../../ build"
   },
   "engines": {
     "node": ">=v10"

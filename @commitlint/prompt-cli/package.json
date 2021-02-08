@@ -11,7 +11,8 @@
   "scripts": {
     "commit": "$npm_package_bin_commit",
     "deps": "dep-check",
-    "pkg": "pkg-check --skip-main"
+    "pkg": "pkg-check --skip-main",
+    "prepack": "yarn --cwd=../../ build"
   },
   "repository": {
     "type": "git",
