@@ -94,7 +94,7 @@ export default async function load(
 	if (Array.isArray(config.plugins)) {
 		config.plugins.forEach((plugin) => {
 			if (typeof plugin === 'string') {
-				loadPlugin(preset.plugins, plugin, process.env.DEBUG === 'true');
+				loadPlugin(preset.plugins, plugin, process.env.DEBUG === 'true', base);
 			} else {
 				preset.plugins.local = plugin;
 			}

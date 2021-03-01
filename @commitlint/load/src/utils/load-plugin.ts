@@ -3,11 +3,15 @@ import chalk from 'chalk';
 import {normalizePackageName, getShorthandName} from './plugin-naming';
 import {WhitespacePluginError, MissingPluginError} from './plugin-errors';
 import {PluginRecords} from '@commitlint/types';
+import Module from 'module';
+
+const createRequire = Module.createRequire || Module.createRequireFromPath;
 
 export default function loadPlugin(
 	plugins: PluginRecords,
 	pluginName: string,
-	debug: boolean = false
+	debug: boolean = false,
+	cwd: string = process.cwd()
 ): PluginRecords {
 	const longName = normalizePackageName(pluginName);
 	const shortName = getShorthandName(longName);
@@ -22,12 +26,14 @@ export default function loadPlugin(
 	const pluginKey = longName === pluginName ? shortName : pluginName;
 
 	if (!plugins[pluginKey]) {
+		const requirePlugin = createRequire(path.join(cwd, '__placeholder__.js'));
+
 		try {
-			plugin = require(longName);
+			plugin = requirePlugin(longName);
 		} catch (pluginLoadErr) {
 			try {
 				// Check whether the plugin exists
-				require.resolve(longName);
+				requirePlugin.resolve(longName);
 			} catch (error) {
 				// If the plugin can't be resolved, display the missing plugin error (usually a config or install error)
 				console.error(chalk.red(`Failed to load plugin ${longName}.`));
@@ -44,12 +50,12 @@ export default function loadPlugin(
 
 		// This step is costly, so skip if debug is disabled
 		if (debug) {
-			const resolvedPath = require.resolve(longName);
+			const resolvedPath = requirePlugin.resolve(longName);
 
 			let version = null;
 
 			try {
-				version = require(`${longName}/package.json`).version;
+				version = requirePlugin(`${longName}/package.json`).version;
 			} catch (e) {
 				// Do nothing
 			}
