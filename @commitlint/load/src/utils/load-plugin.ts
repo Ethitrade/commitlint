@@ -71,7 +71,7 @@ export default function loadPlugin(
 			);
 		}
 
-		plugins[pluginKey] = plugin;
+		plugins[pluginKey] = plugin.default || plugin;
 	}
 
 	return plugins;
